@@ -1,0 +1,142 @@
+#include<iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = NULL;
+    }
+};
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList() {
+        head = NULL;
+    }
+
+    void insertAtBeginning(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+        cout << value << " inserted at the beginning" << endl;
+    }
+
+    void insertAtEnd(int value) {
+        Node* newNode = new Node(value);
+        if (head == NULL) {
+            head = newNode;
+            cout << value << " inserted at the end" << endl;
+            return;
+        }
+        Node* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        cout << value << " inserted at the end" << endl;
+    }
+
+    void deleteFromBeginning() {
+        if (head == NULL) {
+            cout << "List is empty" << endl;
+            return;
+        }
+        int value = head->data;
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+        cout << value << " deleted from the beginning" << endl;
+    }
+
+    void deleteFromEnd() {
+        if (head == NULL) {
+            cout << "List is empty" << endl;
+            return;
+        }
+        int value;
+        if (head->next == NULL) {
+            value = head->data;
+            delete head;
+            head = NULL;
+        }
+        else {
+            Node* temp = head;
+            while (temp->next->next != NULL) {
+                temp = temp->next;
+            }
+            value = temp->next->data;
+            delete temp->next;
+            temp->next = NULL;
+        }
+        cout << value << " deleted from the end" << endl;
+    }
+
+    void display() {
+        if (head == NULL) {
+            cout << "List is empty" << endl;
+            return;
+        }
+        Node* temp = head;
+        cout << "Elements in the list are: ";
+        while (temp != NULL) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    LinkedList ll;
+
+    int choice, value;
+
+    do {
+        cout << "1. Insert at beginning" << endl;
+        cout << "2. Insert at end" << endl;
+        cout << "3. Delete from beginning" << endl;
+        cout << "4. Delete from end" << endl;
+        cout << "5. Display" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter the value to insert: ";
+            cin >> value;
+            ll.insertAtBeginning(value);
+            break;
+        case 2:
+            cout << "Enter the value to insert: ";
+            cin >> value;
+            ll.insertAtEnd(value);
+            break;
+        case 3:
+            ll.deleteFromBeginning();
+            break;
+        case 4:
+            ll.deleteFromEnd();
+            break;
+        case 5:
+            ll.display();
+            break;
+        case 6:
+            cout << "Exiting..." << endl;
+            break;
+        default:
+            cout << "Invalid choice" << endl;
+            break;
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
